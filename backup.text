@@ -1,0 +1,135 @@
+<?php
+  $db_server = "localhost";
+  $db_user = "root";
+  $db_pass = "";
+  $db_name = "portal";
+  $conn = "";
+  $conn = mysqli_connect($db_server, $db_user, $db_pass, $db_name);
+
+  // if($conn){
+  //   echo"Connected!";
+  // }
+
+  if(isset($_SESSION["user"])){
+    header("location: logout.php");
+    die();
+  }
+?>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Login</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <style>
+
+  </style>
+</head>
+<body>
+  <center>
+    <h1>Login</h1>
+
+    <br><br>
+
+    <form method="post" class="form-label">
+
+      <div class='form-floating ms-5 me-5'>
+        <input class="form-control" type="username" name="username" id="username" placeholder="samarth7523">
+        <label for="username">Username</label>
+      </div>
+
+      <br> <br>
+
+      <div class='form-floating ms-5 me-5'>
+        <input class="form-control" type="password" name="password" id="password" placeholder="Password">
+        <label for="password">Password</label>
+      </div>
+        
+      <br><br>
+
+      <select name="useroradmin" id="useroradmin" class="form-select">
+        <option value="user">User</option>
+        <option value="admin">Admin</option>
+      </select>
+
+      <input class="btn btn-primary" type="submit" value="Login">
+    </form>
+  </center>
+</body>
+</html>
+
+<?php
+  function redirect($url){
+    header('Location: '.$url);
+    die();
+  }
+
+  session_start();
+  if($_SERVER["REQUEST_METHOD"] == "POST"){
+    $username = $_POST["username"];
+    $password = $_POST["password"];
+
+    $isAdmin = false;
+
+    if(isset($_POST["useroradmin"])){
+      if($_POST["useroradmin"] == "admin"){
+        $isAdmin = true;
+      }
+    }
+
+    if($isAdmin){
+      $sql = "SELECT * FROM users_a";
+      $result = mysqli_query($conn, $sql);
+
+      if(mysqli_num_rows($result) > 0){
+        $doesExist = false;
+
+        while( $row = mysqli_fetch_assoc($result)){
+          if($row["username"] == $username && $row["password"] == $password){
+            $doesExist = true;
+          }
+        }
+
+        if($doesExist){
+          $_SESSION["user"] = [
+            "username" => $username,
+            "password" => $password,
+          ];
+          $_SESSION["loggedin"] = "admin";
+          redirect("admin_page.php");
+        }
+        else{
+          echo "<center><p>Username or Password entered is incorrect!</p></center>";
+        }
+      }
+    }
+    else{
+      $sql = "SELECT * FROM users_u";
+      $result = mysqli_query($conn, $sql);
+      $doesExist = false;
+      $userID = -1;
+
+      if(mysqli_num_rows($result) > 0){
+        while( $row = mysqli_fetch_assoc($result)){
+          if($row["username"] == $username && $row["password"]){
+            $doesExist = true;
+            $userID = $row["user_id"];
+          }
+        }
+      }
+
+      if($doesExist){
+        $_SESSION["user"] = [
+          "username" => $username,
+          "password"=> $password
+        ];
+
+        $_SESSION["userID"] = $userID;
+        $_SESSION["loggedin"] = "user";
+        redirect("user_page.php");
+      }
+    }
+  }
+
+?>

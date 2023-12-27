@@ -1,0 +1,189 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  color: #0f2830;
+  background-color: #f1f5f8;
+  font-family: 'Inter';
+}
+
+.parent{
+  height: 100vh;
+  width: 100%;
+  margin-top: 60px;
+  display: flex;
+  justify-content: center;
+}
+
+.question-div{
+  background-color: #fff;
+  width: 1000px;
+  padding: 25px;
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0 auto;
+  margin-bottom: 60px;
+  border-radius: 8px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.08);
+}
+
+.question-number{
+  margin-top: 10px;
+  margin-bottom: 35px;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.question-text{
+  margin-bottom: 30px;
+}
+
+.radio-group{
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 30px;
+  margin-left: 15px;
+}
+
+.navigation-button{
+  display: flex;
+  gap: 10px;
+}
+
+.saveandnext{
+  padding: 12px;
+  border-radius: 6px;
+  color: #0f2830;
+  background-color: #fff;
+  border-style: solid;
+  border-color: rgba(80, 93, 107, 0.3);
+  border-radius: 5px;
+  font-size: 16px;
+  /* border-width: 0.5px; */
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.03);
+  margin-top: 25px;
+}
+
+.saveandnext:disabled{
+  color:rgba(80, 93, 107, 0.3);
+}
+
+
+.saveandnext:hover{
+  border-color: #fe914c;
+  color: #fe914c;
+}
+
+
+.custom-radio-btn {
+  --size: 25px;
+  min-width: var(--size);
+  height: var(--size);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  /* changes from the video   */
+  
+  margin: 0 10px;
+  position: relative;
+  padding-left: var(--size);
+  margin-bottom: 18px;
+  letter-spacing: 0.5px;
+  display: block;
+}
+
+.custom-radio-btn input {
+  display: none;
+}
+
+/* handle if you want label on the left of the checkmark instead */
+
+.custom-radio-btn.left {
+  padding-left: 0;
+  padding-right: var(--size);
+}
+
+/* label  */
+
+.custom-radio-btn .label {
+  margin-left: 12px;
+  font-size: 17px;
+}
+
+.custom-radio-btn.left .label {
+  margin: 0 5px;
+}
+
+.custom-radio-btn[aria-label]::after {
+  content: attr(aria-label);
+  display: inline-block;
+  margin-left: 5px;
+}
+
+/* checkmark */
+
+.custom-radio-btn .checkmark {
+  --gap: 3px;
+  --border: 2px;
+  --check-color: #fe914c;
+  width: var(--size);
+  height: var(--size);
+  border-radius: 50%;
+  display: inline-block;
+  transition: opacity 0.3s ease;
+  /* changes from the video  */
+  
+  border: var(--border) solid #444;
+  padding: var(--gap);
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.custom-radio-btn.left .checkmark {
+  left: auto;
+  right: 0;
+}
+
+.custom-radio-btn input:checked ~ .checkmark {
+  /* changes from the video  */
+
+  /*  content box origin will make sure the bg-image only stays inside content area in between padding  */
+  background-origin: content-box;
+  background-repeat: no-repeat;
+  background-image: radial-gradient(
+    circle at center, 
+    var(--check-color) 
+     /* the size of the check mark is determined by subtracting from the size of the circle
+     the border(both sides) and the gap(both sides) than dividing it by 2 to get the radius of the circle        */
+       calc((var(--size) - (var(--border) * 2) - (var(--gap) * 2)) / 2), 
+    rgba(255, 255, 255, 0) 0);
+}
+
+.nav-div{
+  background-color: #fff;
+  padding: 15px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.08);
+  display: flex;
+  justify-content: center;
+}
+
+.nav-div{
+  background-color: #fff;
+  padding: 15px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.08);
+  display: flex;
+  justify-content: center;
+}
+
+nav img{
+  height: 30px;
+  align-self: center;
+}
