@@ -7,22 +7,21 @@
 body {
   color: #0f2830;
   background-color: #f1f5f8;
-  font-family: 'Inter';
+  font-family: "Inter";
 }
 
-.parent{
-  height: 100vh;
+.parent {
   width: 100%;
   margin-top: 60px;
   display: flex;
   justify-content: center;
 }
 
-.question-div{
+.question-div {
   background-color: #fff;
   width: 1000px;
   padding: 25px;
-  height: 400px;
+  /* height: 400px; */
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -32,18 +31,18 @@ body {
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.08);
 }
 
-.question-number{
+.question-number {
   margin-top: 10px;
   margin-bottom: 35px;
   font-size: 18px;
   font-weight: 600;
 }
 
-.question-text{
+.question-text {
   margin-bottom: 30px;
 }
 
-.radio-group{
+.radio-group {
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -51,12 +50,12 @@ body {
   margin-left: 15px;
 }
 
-.navigation-button{
+.navigation-button {
   display: flex;
   gap: 10px;
 }
 
-.saveandnext{
+.saveandnext {
   padding: 12px;
   border-radius: 6px;
   color: #0f2830;
@@ -70,16 +69,14 @@ body {
   margin-top: 25px;
 }
 
-.saveandnext:disabled{
-  color:rgba(80, 93, 107, 0.3);
+.saveandnext:disabled {
+  color: rgba(80, 93, 107, 0.3);
 }
 
-
-.saveandnext:hover{
+.saveandnext:hover {
   border-color: #fe914c;
   color: #fe914c;
 }
-
 
 .custom-radio-btn {
   --size: 25px;
@@ -90,7 +87,7 @@ body {
   align-items: center;
   cursor: pointer;
   /* changes from the video   */
-  
+
   margin: 0 10px;
   position: relative;
   padding-left: var(--size);
@@ -139,7 +136,7 @@ body {
   display: inline-block;
   transition: opacity 0.3s ease;
   /* changes from the video  */
-  
+
   border: var(--border) solid #444;
   padding: var(--gap);
   position: absolute;
@@ -159,15 +156,16 @@ body {
   background-origin: content-box;
   background-repeat: no-repeat;
   background-image: radial-gradient(
-    circle at center, 
-    var(--check-color) 
-     /* the size of the check mark is determined by subtracting from the size of the circle
+    circle at center,
+    var(--check-color)
+      /* the size of the check mark is determined by subtracting from the size of the circle
      the border(both sides) and the gap(both sides) than dividing it by 2 to get the radius of the circle        */
-       calc((var(--size) - (var(--border) * 2) - (var(--gap) * 2)) / 2), 
-    rgba(255, 255, 255, 0) 0);
+      calc((var(--size) - (var(--border) * 2) - (var(--gap) * 2)) / 2),
+    rgba(255, 255, 255, 0) 0
+  );
 }
 
-.nav-div{
+.nav-div {
   background-color: #fff;
   padding: 15px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.08);
@@ -175,7 +173,7 @@ body {
   justify-content: center;
 }
 
-.nav-div{
+.nav-div {
   background-color: #fff;
   padding: 15px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.08);
@@ -183,7 +181,7 @@ body {
   justify-content: center;
 }
 
-nav img{
+nav img {
   height: 30px;
   align-self: center;
 }

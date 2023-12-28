@@ -10,9 +10,9 @@ $conn = mysqli_connect($db_server, $db_user, $db_pass, $db_name);
 //   echo"Connected!";
 // }
 
-if (isset($_SESSION["user"])) {
-  header("location: logout.php");
-  die();
+if (isset($_SESSION["user"]) || isset($_SESSION["loggedin"])) {
+  header("location: /Portal/logout");
+  exit();
 }
 ?>
 
@@ -24,7 +24,7 @@ if (isset($_SESSION["user"])) {
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
-  <link rel="icon" type="image/x-icon" href="../assets/images/favicon.ico">
+  <link rel="icon" type="image/x-icon" href="../assets/images/favicon.png">
   <link rel="stylesheet" href="login.css" />
 </head>
 
