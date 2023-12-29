@@ -131,6 +131,22 @@ if (mysqli_num_rows($result) > 0) {
     </div>
   </nav>
   <div class="parent">
+    <div class="pallette-div">
+      <div class="column-pallette">
+        <div class="individual-question answered">1</div>
+        <div class="individual-question answered">2</div>
+        <div class="individual-question">3</div>
+        <div class="individual-question">4</div>
+        <div class="individual-question not-answered">5</div>
+        <div class="individual-question answered">6</div>
+        <div class="individual-question not-answered">7</div>
+        <div class="individual-question not-answered">8</div>
+        <div class="individual-question">9</div>
+        <div class="individual-question answered">10</div>
+        <div class="individual-question not-answered">11</div>
+        <div class="individual-question">12</div>
+      </div>
+    </div>
     <div class="question-div">
       <p id="question-number" class="question-number">
         Question 1 / <?php echo $question_no ?>
@@ -251,7 +267,7 @@ if (mysqli_num_rows($result) > 0) {
         user_option: user_option,
       }
 
-      fetch("/portal/user/send_answer.php", {
+      fetch("/portal/user/test/send_answer.php", {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -309,7 +325,7 @@ if (mysqli_num_rows($result) > 0) {
         user_option: user_option,
       }
 
-      fetch("/portal/user/send_answer.php", {
+      fetch("/portal/user/test/send_answer.php", {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
