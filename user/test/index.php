@@ -127,25 +127,18 @@ if (mysqli_num_rows($result) > 0) {
 <body>
   <nav>
     <div class="nav-div">
-      <img src="hi.png" alt="" />
+      <div class="nav-content">
+        <img src="hi.png" alt="" />
+        <p id="time-p">1:00:00</p>
+      </div>
     </div>
   </nav>
+  <script src="scripts/time.js"></script>
   <div class="parent">
     <div class="pallette-div">
-      <div class="column-pallette">
-        <div class="individual-question answered">1</div>
-        <div class="individual-question answered">2</div>
-        <div class="individual-question">3</div>
-        <div class="individual-question">4</div>
-        <div class="individual-question not-answered">5</div>
-        <div class="individual-question answered">6</div>
-        <div class="individual-question not-answered">7</div>
-        <div class="individual-question not-answered">8</div>
-        <div class="individual-question">9</div>
-        <div class="individual-question answered">10</div>
-        <div class="individual-question not-answered">11</div>
-        <div class="individual-question">12</div>
+      <div id="column-pallette" class="column-pallette">
       </div>
+      <button class="saveandnext" onclick="finishTest()">Finish Test</button>
     </div>
     <div class="question-div">
       <p id="question-number" class="question-number">
@@ -198,16 +191,6 @@ if (mysqli_num_rows($result) > 0) {
     const getAnswers = <?php echo json_encode($savedAnswers); ?>;
     const savedAnswers = [];
 
-    for (let i = 0; i < getAnswers.length; i++) {
-      let whatIsAnswer = {
-        question_id: Number(getAnswers[i]["question_id"]),
-        user_option: Number(getAnswers[i]["user_option"]),
-      }
-      savedAnswers.push(whatIsAnswer)
-    }
-
-    console.log(savedAnswers);
-
     const question_number = document.getElementById("question-number");
     const question_para = document.getElementById("question-para");
     const op1 = document.getElementById("op1");
@@ -220,6 +203,81 @@ if (mysqli_num_rows($result) > 0) {
     const op4_r = document.getElementById("op4-r");
     const butnext = document.getElementById("next");
     const goback = document.getElementById("goback");
+
+    for (let i = 0; i < getAnswers.length; i++) {
+      let whatIsAnswer = {
+        question_id: Number(getAnswers[i]["question_id"]),
+        user_option: Number(getAnswers[i]["user_option"]),
+      }
+      savedAnswers.push(whatIsAnswer)
+    }
+
+    const finishTest = () => {
+      getResponse = prompt("Are you sure you want to finish the Test? Type 'Yes' in the following input box.").toLowerCase();
+
+      console.log(getResponse);
+
+      if (getResponse == "yes") {
+        window.location.href = "finish";
+      }
+    }
+
+    const handleQuestionPalletteClick = (whatIsCurrQuestion) => {
+      currQuestion = whatIsCurrQuestion - 1;
+      question_number.innerHTML = "Question " + (currQuestion + 1) + " / " + question_no;
+      question_para.innerHTML = questions[currQuestion]["question"];
+      // console.log(currQuestion);
+
+      op1.innerHTML = questions[currQuestion]["op1"];
+      op2.innerHTML = questions[currQuestion]["op2"];
+      op3.innerHTML = questions[currQuestion]["op3"];
+      op4.innerHTML = questions[currQuestion]["op4"];
+
+      const markThisDivUnanswered = document.getElementById(questions[currQuestion]["question_id"]);
+
+      if (!markThisDivUnanswered.classList.contains("answered")) {
+        markThisDivUnanswered.classList.add("not-answered");
+      }
+
+      markValuesWhenReload();
+    }
+
+    const column_pallette = document.getElementById("column-pallette");
+    column_pallette.innerHTML = "";
+
+    for (let i = 0; i < questions.length; i++) {
+      const individual_question = document.createElement("div");
+      individual_question.className = "individual-question";
+      individual_question.id = questions[i]["question_id"];
+      individual_question.innerHTML = i + 1;
+
+      individual_question.addEventListener("click", function() {
+        handleQuestionPalletteClick(individual_question.innerHTML);
+      });
+
+      if (i == 0) {
+        individual_question.classList.add("not-answered");
+      }
+
+      for (let j = 0; j < savedAnswers.length; j++) {
+        if (questions[i]["question_id"] == savedAnswers[j]["question_id"]) {
+          if (individual_question.classList.contains("not-answered")) {
+            individual_question.classList.remove("not-answered")
+          }
+          individual_question.classList.add("answered");
+        }
+      }
+
+      column_pallette.appendChild(individual_question);
+    }
+    // console.log(questions[0]["question_id"]);
+
+    console.log(savedAnswers);
+
+    const markPallette = (question_id) => {
+      const markThisDiv = document.getElementById(question_id);
+      markThisDiv.classList.add("answered");
+    }
 
     const markValuesWhenReload = () => {
       op1_r.checked = false;
@@ -305,64 +363,18 @@ if (mysqli_num_rows($result) > 0) {
           user_option: user_option,
         })
       }
+
+      markPallette(questions[currQuestion]["question_id"]);
+
+      const currQuestionIndPallette = document.getElementById(questions[currQuestion]["question_id"]);
+      if (currQuestionIndPallette.classList.contains("not-answered")) {
+        currQuestionIndPallette.classList.remove("not-answered");
+      }
+      currQuestionIndPallette.classList.add("answered");
     }
 
     const handleSaveAndNext = () => {
-      let user_option = -1;
-
-      if (op1_r.checked) {
-        user_option = 1;
-      } else if (op2_r.checked) {
-        user_option = 2;
-      } else if (op3_r.checked) {
-        user_option = 3;
-      } else {
-        user_option = 4;
-      }
-
-      let currAnswer = {
-        question_id: questions[currQuestion]["question_id"],
-        user_option: user_option,
-      }
-
-      fetch("/portal/user/test/send_answer.php", {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            curr_answer: currAnswer,
-          }),
-        })
-        .then(response => {
-          if (!response.ok) {
-            throw new Error('Network response was not ok');
-          }
-          return response.json();
-        })
-        .then(data => {
-          console.log('PHP Response:', data);
-        })
-        .catch(error => {
-          console.error('Error:', error);
-          return error.text();
-        });
-
-      let flag2 = 0;
-
-      for (let i = 0; i < savedAnswers.length; i++) {
-        if (savedAnswers[i]["question_id"] === questions[currQuestion]["question_id"]) {
-          savedAnswers[i]["user_option"] = user_option;
-          flag2 = 1;
-        }
-      }
-
-      if (!flag2) {
-        savedAnswers.push({
-          question_id: questions[currQuestion]["question_id"],
-          user_option: user_option,
-        })
-      }
+      handleSave();
       handleNext();
     }
 
@@ -384,6 +396,12 @@ if (mysqli_num_rows($result) > 0) {
       op2.innerHTML = questions[currQuestion]["op2"];
       op3.innerHTML = questions[currQuestion]["op3"];
       op4.innerHTML = questions[currQuestion]["op4"];
+
+      const markThisDivUnanswered = document.getElementById(questions[currQuestion]["question_id"]);
+
+      if (!markThisDivUnanswered.classList.contains("answered")) {
+        markThisDivUnanswered.classList.add("not-answered");
+      }
 
       markValuesWhenReload();
     }
@@ -407,6 +425,13 @@ if (mysqli_num_rows($result) > 0) {
       op2.innerHTML = questions[currQuestion]["op2"];
       op3.innerHTML = questions[currQuestion]["op3"];
       op4.innerHTML = questions[currQuestion]["op4"];
+
+      const markThisDivUnanswered = document.getElementById(questions[currQuestion]["question_id"]);
+
+
+      if (!markThisDivUnanswered.classList.contains("answered")) {
+        markThisDivUnanswered.classList.add("not-answered");
+      }
 
       markValuesWhenReload();
     }
