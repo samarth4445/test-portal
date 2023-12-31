@@ -105,13 +105,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (mysqli_num_rows($result) > 0) {
       while ($row = mysqli_fetch_assoc($result)) {
-        if ($row["username"] == $username && $row["password"]) {
+        if ($row["username"] == $username && $row["password"] == $password) {
           $doesExist = true;
           $userID = $row["user_id"];
         }
       }
     }
-
     if ($doesExist) {
       $_SESSION["user"] = [
         "username" => $username,
@@ -121,6 +120,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       $_SESSION["userID"] = $userID;
       $_SESSION["loggedin"] = "user";
       redirect("../user");
+    } else {
+      echo "<center><p>Username or Password entered is incorrect!</p></center>";
     }
   }
 }

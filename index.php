@@ -20,16 +20,20 @@ if (isset($_SESSION["user"])) {
   if (isset($_SESSION["loggedin"])) {
     if ($_SESSION["loggedin"] == "admin") {
       redirect("/portal/admin-panel");
+      exit();
     }
     else if($_SESSION["loggedin"] == "user"){
       redirect("/portal/user");
+      exit();
     }
   }
-  else{    
+  else{
     redirect("/portal/login");
+    exit();
   }
 }
 else{
   redirect("/portal/login");
+  exit();
 }
 

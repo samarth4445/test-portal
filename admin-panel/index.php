@@ -24,10 +24,6 @@
 
   $username = $_SESSION["user"]["username"];
   $password = $_SESSION["user"]["password"];
-
-  // if($conn){
-  //   echo"Connected!";
-  // }
 ?>
 
 <!DOCTYPE html>
@@ -37,7 +33,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Page</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-
 </head>
 <body>
   <center>
@@ -50,7 +45,8 @@
           <th>Name</th>
           <th>Date</th>
           <th>Number of questions</th>
-          <th>Edit Tests</th>
+            <th>Add Users</th>
+            <th>Edit Tests</th>
         </tr>
       </thead>
 
@@ -61,7 +57,22 @@
 
           if(mysqli_num_rows($result) > 0){
             while($row = mysqli_fetch_assoc($result)){
-              echo "<tr><td>{$row["test_id"]}</td><td>{$row["test_name"]}</td><td>{$row["test_date"]}</td><td>{$row["test_question_no"]}</td><td><button class='btn btn-primary' id={$row["test_id"]} onClick='handleEdit(this.id)'>Edit</button></td></tr>";
+                $testID =  $row["test_id"];
+              echo "<tr>
+                        <td>{$row["test_id"]}</td>
+                        <td>{$row["test_name"]}</td>
+                        <td>{$row["test_date"]}</td>
+                        <td>{$row["test_question_no"]}</td>
+                        <td>
+                            <form action='/Portal/admin-panel/upload/index.php?testID={$testID}' method='post' enctype='multipart/form-data'>
+                                <input type='file' name='csvFile' id='csvFil' accept='.csv'>
+                                <button class='btn btn-primary' type='submit' name='submit'>Add Users</button>
+                            </form>
+                        </td>
+                        <td>
+                            <button class='btn btn-primary' id={$row["test_id"]} onClick='handleEdit(this.id)'>Edit</button>
+                        </td>
+                    </tr>";
             }
           }
         ?>
@@ -76,7 +87,6 @@
     </table>
 
     <p>Create a <a href="create_test.php">test</a>.</p>
-
     <a href="../logout" class='btn btn-danger'>Logout</a>
   </center>
 </body>

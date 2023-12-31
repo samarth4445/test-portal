@@ -50,9 +50,9 @@ $result = mysqli_query($conn, $sql);
 $testName = "";
 
 if (mysqli_num_rows($result) > 0) {
-while ($row = mysqli_fetch_assoc($result)) {
-  $testName = $row["test_name"];
-}
+  while ($row = mysqli_fetch_assoc($result)) {
+    $testName = $row["test_name"];
+  }
 }
 //}
 
@@ -71,21 +71,20 @@ $result = mysqli_query($conn, $sql);
 
 $testStatus = -1;
 
-if(mysqli_num_rows($result) > 0){
-    while($row = mysqli_fetch_assoc($result)){
-        $testStatus = $row["test_status"];
-    }
+if (mysqli_num_rows($result) > 0) {
+  while ($row = mysqli_fetch_assoc($result)) {
+    $testStatus = $row["test_status"];
+  }
 }
 
-if($testStatus == -1){
-    echo"<h1>You have not been registered for any tests</h1>";
-    header("Location: /Portal/logout");
-    exit();
-}
-else if($testStatus == 2){
-    echo"<h1>You have already given the test</h1>";
-    echo "<a href='/Portal/logout'>Go to the log in page...</a>";
-    exit();
+if ($testStatus == -1) {
+  echo "<h1>You have not been registered for any tests</h1>";
+  echo "<a href='/Portal/logout'>Go to the log in page...</a>";
+  // header("Location: /Portal/logout");
+  exit();
+} else if ($testStatus == 2) {
+  header("Location: /Portal/error/test-given-already");
+  exit();
 }
 
 ?>

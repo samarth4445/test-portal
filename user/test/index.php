@@ -67,14 +67,13 @@ if(mysqli_num_rows($result) > 0){
     }
 }
 
-if($testStatus == -1){
-    echo"<h1>You have not been registered for any tests</h1>";
-    header("Location: /Portal/logout");
-    exit();
-}
-else if($testStatus == 2){
-    echo"<h1>You have already given the test</h1>";
+if ($testStatus == -1) {
+    echo "<h1>You have not been registered for any tests</h1>";
     echo "<a href='/Portal/logout'>Go to the log in page...</a>";
+    // header("Location: /Portal/logout");
+    exit();
+} else if ($testStatus == 2) {
+    header("Location: /Portal/error/test-given-already");
     exit();
 }
 
