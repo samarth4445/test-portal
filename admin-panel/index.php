@@ -1,39 +1,41 @@
 <?php
-  $db_server = "localhost";
-  $db_user = "root";
-  $db_pass = "";
-  $db_name = "portal";
-  $conn = "";
-  $conn = mysqli_connect($db_server, $db_user, $db_pass, $db_name);
+$db_server = "localhost";
+$db_user = "root";
+$db_pass = "";
+$db_name = "portal";
+$conn = "";
+$conn = mysqli_connect($db_server, $db_user, $db_pass, $db_name);
 
-  session_start();
-  if(!isset($_SESSION["user"])){
-    echo"You are not logged in. Please <a href='../login'>Login</a>";
-    exit();
-  }
+session_start();
+if (!isset($_SESSION["user"])) {
+  echo "You are not logged in. Please <a href='../login'>Login</a>";
+  exit();
+}
 
-  if(!isset($_SESSION["loggedin"])){
-    echo"You are not logged in. Please <a href='../login'>Login</a>";
-    exit();
-  }
+if (!isset($_SESSION["loggedin"])) {
+  echo "You are not logged in. Please <a href='../login'>Login</a>";
+  exit();
+}
 
-  if($_SESSION["loggedin"] != "admin"){
-    echo"You are not logged in. Please <a href='../login'>Login</a>";
-    exit();
-  }
+if ($_SESSION["loggedin"] != "admin") {
+  echo "You are not logged in. Please <a href='../login'>Login</a>";
+  exit();
+}
 
-  $username = $_SESSION["user"]["username"];
-  $password = $_SESSION["user"]["password"];
+$username = $_SESSION["user"]["username"];
+$password = $_SESSION["user"]["password"];
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Page</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 </head>
+
 <body>
   <center>
     <h1>Admin Page</h1>
@@ -45,20 +47,21 @@
           <th>Name</th>
           <th>Date</th>
           <th>Number of questions</th>
-            <th>Add Users</th>
-            <th>Edit Tests</th>
+          <th>Add Users</th>
+          <th>User Info</th>
+          <th>Edit Tests</th>
         </tr>
       </thead>
 
       <tbody>
-        <?php 
-          $sql = "SELECT * FROM tests";
-          $result = mysqli_query($conn, $sql);
+        <?php
+        $sql = "SELECT * FROM tests";
+        $result = mysqli_query($conn, $sql);
 
-          if(mysqli_num_rows($result) > 0){
-            while($row = mysqli_fetch_assoc($result)){
-                $testID =  $row["test_id"];
-              echo "<tr>
+        if (mysqli_num_rows($result) > 0) {
+          while ($row = mysqli_fetch_assoc($result)) {
+            $testID =  $row["test_id"];
+            echo "<tr>
                         <td>{$row["test_id"]}</td>
                         <td>{$row["test_name"]}</td>
                         <td>{$row["test_date"]}</td>
@@ -70,16 +73,23 @@
                             </form>
                         </td>
                         <td>
+                            <button class='btn btn-primary' id='{$row["test_id"]}' onclick='handleUserInfo(this.id)'>See User Info</button>
+                        </td>
+                        <td>
                             <button class='btn btn-primary' id={$row["test_id"]} onClick='handleEdit(this.id)'>Edit</button>
                         </td>
                     </tr>";
-            }
           }
+        }
         ?>
 
         <script>
-          function handleEdit(id){
+          function handleEdit(id) {
             window.location.href = "edit.php?testID=" + encodeURIComponent(id);
+          }
+
+          function handleUserInfo(id) {
+            window.location.href = "user_info.php?testID=" + encodeURIComponent(id);
           }
         </script>
       </tbody>
@@ -90,4 +100,5 @@
     <a href="../logout" class='btn btn-danger'>Logout</a>
   </center>
 </body>
+
 </html>
