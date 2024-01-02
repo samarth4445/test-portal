@@ -50,9 +50,9 @@ if (isset($_SESSION["user"]) || isset($_SESSION["loggedin"])) {
 
       <button class="btn btn-sign-in" type="submit">Sign in</button>
       <p class="or">OR</p>
-      <button class="btn btn-cwm">Continue with Google</button>
+      <button class="btn btn-cwm" disabled>Continue with Google</button>
       <hr />
-      <button class="btn btn-sign-up">Sign up</button>
+      <button class="btn btn-sign-up" disabled>Sign up</button>
       <p class="forgot-password">Forgot your password?</p>
     </form>
   </div>

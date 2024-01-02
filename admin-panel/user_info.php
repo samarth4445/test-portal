@@ -55,6 +55,7 @@ $password = $_SESSION["user"]["password"];
             <tr>
               <th>ID</th>
               <th>Username</th>
+              <th>Test Status</th>
               <th>Score</th>
             </tr>
           </thead>
@@ -73,11 +74,12 @@ $password = $_SESSION["user"]["password"];
               $totalMarks = $row["test_question_no"];
             }
 
-            $sql = "SELECT useranswers.user_id, useranswers.question_id, useranswers.user_option, questions.correct_op 
-                FROM useranswers
-                JOIN questions ON questions.question_id = useranswers.question_id
-                WHERE test_id={$testID}
-                ORDER BY useranswers.user_id";
+            $sql = "SELECT useranswers.user_id, useranswers.question_id, useranswers.user_option, questions.correct_op, test_status.test_status 
+                    FROM useranswers JOIN questions ON questions.question_id = useranswers.question_id
+                    JOIN test_status ON useranswers.user_id=test_status.user_id
+                    WHERE questions.test_id=17
+                    ORDER BY useranswers.user_id;";
+
             $result = mysqli_query($conn, $sql);
 
             $userInfo = [];
@@ -88,6 +90,7 @@ $password = $_SESSION["user"]["password"];
                   "user_id" => $row["user_id"],
                   "question_id" => $row["question_id"],
                   "user_option" => $row["user_option"],
+                  "test_status" => $row["test_status"],
                   "correct_op" => $row["correct_op"],
                 ];
               }
@@ -97,25 +100,44 @@ $password = $_SESSION["user"]["password"];
 
             for ($i = 0; $i < count($userInfo); $i++) {
               if (!isset($scores["{$userInfo[$i]["user_id"]}"])) {
-                $scores["{$userInfo[$i]["user_id"]}"] = 0;
+                $scores["{$userInfo[$i]["user_id"]}"] = [
+                  "score" => 0,
+                  "test_status" => $userInfo[$i]["test_status"],
+                ];
               }
 
               if ($userInfo[$i]["user_option"] == $userInfo[$i]["correct_op"]) {
-                $scores["{$userInfo[$i]["user_id"]}"]++;
+                $scores["{$userInfo[$i]["user_id"]}"]["score"]++;
               }
             }
 
             foreach ($scores as $x => $y) {
+              $testStatusString = $y["test_status"] == 1 ? "
+              <option value='1' selected>Test Start</option>
+              <option value='2'>Test Finished</option>" :
+                "<option value='1'>Test Start</option>
+              <option value='2' selected>Test Finished</option>";
               echo "<tr>
-          <td>{$x}</td>
-          <td>Rando Username</td>
-          <td>{$y}</td>
-        </tr>";
+                      <td>{$x}</td>
+                      <td>Rando Username</td>
+                      <td>
+                      <select name='test-status' id='test-status'>
+                        echo {$testStatusString}
+                      </select>
+                      </td>
+                      <td>{$y["score"]}</td>
+                    </tr>";
             }
             ?>
           </tbody>
         </table>
+
+        <button class="btn btn-primary" onclick='handleSaveChanges()'>Save Changes</button>
       </center>
+
+      <script>
+        let testID = <?php echo $testID; ?>;
+      </script>
 </body>
 
 </html>
