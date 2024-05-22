@@ -14,7 +14,7 @@ Key Technologies used :-
 
 3.Key Features: User Authentication, Test Creation, Test Taking, Grading and Analytics
 
-4.Other Technologies:NVINX, Tailwind CSS, Rest, API.
+4.Other Technologies:NGINX, Tailwind CSS, Rest, API.
 
 1.Login Page
 ![Login](https://github.com/samarth4445/dockerized-test-portal/assets/113175706/2f30b5fd-edf7-40fc-ba9a-093536b78123)
