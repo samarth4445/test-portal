@@ -10,13 +10,11 @@ Key Technologies used :-
 
 1.Frontend: HTML, CSS, JavaScript for the user interface.
 
-2.Backend: Python with Django, MySQL for data management.
+2.Backend: PHP, and MySQL
 
-3.Docker: Containerization for deployment and scalability.
+3.Key Features: User Authentication, Test Creation, Test Taking, Grading and Analytics
 
-4.Key Features: User Authentication, Test Creation, Test Taking, Grading and Analytics
-
-5.Other Technologies:NVINX, Tailwind CSS, Rest, API.
+4.Other Technologies:NVINX, Tailwind CSS, Rest, API.
 
 1.Login Page
 ![Login](https://github.com/samarth4445/dockerized-test-portal/assets/113175706/2f30b5fd-edf7-40fc-ba9a-093536b78123)
