@@ -1,7 +1,7 @@
 # Test Portal
 This is a Testing Portal Project where you can create tests, and assign tests to users.
 
-# This project has been shifted to django!
+# This project has been shifted to django
 # This project is not maintained anymore.
 
 TestPortal is a web-based application developed for online assessments and quizzes in a college environment. It includes features like user authentication, customizable test creation, test-taking, grading, and analytics.
