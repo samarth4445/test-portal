@@ -11,7 +11,7 @@ Key Technologies used :-
 
 2.Backend: PHP, and MySQL
 
-3.Key Features: User Authentication, Test Creation, Test Taking, Grading and Analytics
+3.Key Features: User Authentication, Test Creation, Test Taking, Grading and Analytics.
 
 4.Other Technologies:NGINX, Tailwind CSS, Rest, API.
 
